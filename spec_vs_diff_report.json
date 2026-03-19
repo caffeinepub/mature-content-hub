@@ -1,0 +1,82 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-18T14:45:13.205Z",
+  "summary": "Most core flows are implemented: age-gated routing with persistence, browsing feed/detail anonymously after confirmation, Internet Identity-based UI for create/delete, post CRUD in a single Motoko actor, and keyword-based content policy checks on both client and server. However, backend authentication is not enforced (anonymous users can still create posts), timestamps are not real creation timestamps, and the backend keyword filter appears case-sensitive.",
+  "missing_requirements": [
+    {
+      "id": "REQ-3",
+      "requirement": "Posts should support a creation timestamp and the UI should show creation timestamps.",
+      "reason": "The backend sets `timestamp` to `nextPostId` rather than an actual time value, and the frontend formats it as `Post #...` / `Post #${post.timestamp.toString()}` rather than a creation timestamp.",
+      "evidence": [
+        "backend/main.mo (timestamp = nextPostId)",
+        "frontend/src/pages/FeedPage.tsx (formatTimestamp returns `Post #${timestamp}`)",
+        "frontend/src/pages/PostDetailPage.tsx (renders `Post #${post.timestamp.toString()}`)"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Require Internet Identity login to create or delete posts (server-side enforcement, not just UI).",
+      "reason": "The backend `createPost` and `deletePost` methods do not check that the caller is authenticated (i.e., non-anonymous). The frontend blocks create when not authenticated, but backend does not enforce the requirement.",
+      "evidence": [
+        "backend/main.mo (createPost/deletePost have no non-anonymous/auth check; they accept any caller Principal)"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Server-side content policy checks should reliably reject explicit keywords in titles/descriptions.",
+      "reason": "The backend keyword check uses `text.contains(#text keyword)` without normalization (e.g., lowercasing), so it may fail to reject uppercase/mixed-case variants of forbidden terms, weakening the server-side policy enforcement.",
+      "evidence": [
+        "backend/main.mo (containsForbiddenKeyword uses `text.contains` without `Text.toLowercase` or similar normalization)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Backend ageGate query method that traps unless `ageConfirmed` is true.",
+      "reason": "The BuildRequest specifies an age-gate flow on the frontend persisted in session/device; it does not request a backend `ageGate` API.",
+      "evidence": [
+        "backend/main.mo (public query func ageGate(ageConfirmed : Bool) : async ())"
+      ]
+    },
+    {
+      "description": "Theme toggle (light/dark) via next-themes in the header.",
+      "reason": "REQ-6 asks for a coherent visual theme and to avoid blue/purple primary, but does not request a user-facing theme toggle.",
+      "evidence": [
+        "frontend/src/components/Header.tsx (Sun/Moon toggle using next-themes)",
+        "frontend/src/App.tsx (ThemeProvider from next-themes)"
+      ]
+    },
+    {
+      "description": "Footer attribution/marketing link to caffeine.ai with UTM parameters.",
+      "reason": "Not requested in the BuildRequest requirements or acceptance criteria.",
+      "evidence": [
+        "frontend/src/components/Footer.tsx (caffeine.ai link with UTM tracking)"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/Footer.tsx",
+    "frontend/src/components/Header.tsx",
+    "frontend/src/content/policy.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useAgeGate.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/usePosts.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AgeGatePage.tsx",
+    "frontend/src/pages/CreatePostPage.tsx",
+    "frontend/src/pages/FeedPage.tsx",
+    "frontend/src/pages/PostDetailPage.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

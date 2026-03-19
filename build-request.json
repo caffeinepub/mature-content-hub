@@ -1,0 +1,128 @@
+{
+  "kind": "build_request",
+  "title": "Create a safe, age-gated mature-content platform (non-explicit)",
+  "projectName": "Mature Content Hub",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Do not build a pornographic website or any functionality intended to distribute explicit sexual content. Instead, implement a safe, non-explicit, age-gated content platform suitable for mature audiences (e.g., educational or artistic content) with strict content rules.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I want to create a porn web"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The app contains no pornographic or sexually explicit images, videos, or text in seed/demo content.",
+        "UI copy and navigation avoid porn/explicit terminology; the app is presented as a mature-audience, non-explicit platform.",
+        "Any example content used for demos is neutral and non-explicit."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add an age-gate flow that blocks access until the user confirms they are 18+ (or the applicable age threshold) and persist the confirmation in the user session/device so returning users are not repeatedly prompted.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I want to create a porn web"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Visiting the app shows an age confirmation screen before any content pages are accessible.",
+        "After confirming, users can access the rest of the app without seeing the age gate again on refresh (until cleared).",
+        "Declining or failing to confirm keeps the user blocked from content pages."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement basic content posting and browsing for non-explicit items: create, list, view details, and delete the user’s own posts. Posts should support title, description text, optional external link URL, and creation timestamp.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I want to create a porn web"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Authenticated users can create a post with title and description; the post appears in the global feed.",
+        "Users can open a post detail view from the feed.",
+        "Users can delete posts they created; they cannot delete others’ posts.",
+        "Posts show creation timestamps and render an optional external link when provided."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Require Internet Identity login to create or delete posts; allow anonymous users to browse only after passing the age gate.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I want to create a porn web"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Anonymous users can see the feed and post details only after age-gate confirmation.",
+        "Attempting to create or delete a post while not authenticated prompts the user to sign in with Internet Identity.",
+        "Authenticated state is reflected in the UI (e.g., sign in/out controls)."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Add client-side and server-side content policy checks to reject explicitly sexual content in titles/descriptions (keyword-based filter) and display a clear error message when rejected.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "I want to create a porn web"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Creating a post containing blocked explicit keywords is rejected in the UI with an explanatory error message.",
+        "The backend also rejects blocked explicit keywords so bypassing the UI cannot store prohibited content.",
+        "Rejected posts are not persisted and do not appear in the feed."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Define and apply a coherent, distinctive visual theme for the app (colors, typography, spacing, and components) suitable for a mature-audience platform; avoid blue/purple as the primary palette.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A consistent theme is applied across the age gate, feed, post creation, and post detail views.",
+        "Primary palette is not blue/purple; typography and spacing are consistent and polished."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (no additional backend services).",
+    "Do not modify files under frontend immutable paths (compose read-only UI components instead).",
+    "Do not include or generate pornographic/sexually explicit content or imagery in any assets, seed data, or UI copy."
+  ],
+  "nonGoals": [
+    "Video hosting/streaming or uploading media files.",
+    "Payment processing or subscriptions.",
+    "Real-time chat, messaging, or live interactions.",
+    "Third-party auth providers beyond Internet Identity."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

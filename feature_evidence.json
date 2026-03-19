@@ -1,0 +1,130 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-do-not-build-a-pornographic-website-or-any-functionality-intended-to-distribute-explicit-sexual-content-instead-implement-a-safe-non-explicit-age-gated-content-platform-suitable-for-mature-audiences-e-g-educational-or-artistic-content-with-strict-content-rules",
+      "featureTitle": "Do not build a pornographic website or any functionality intended to distribute explicit sexual content. Instead, implement a safe, non-explicit, age-gated content platform suitable for mature audiences (e.g., educational or artistic content) with strict content rules.",
+      "files": [
+        "frontend/src/content/policy.ts",
+        "frontend/src/pages/AgeGatePage.tsx",
+        "frontend/src/pages/CreatePostPage.tsx",
+        "frontend/src/pages/FeedPage.tsx",
+        "frontend/src/pages/PostDetailPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-an-age-gate-flow-that-blocks-access-until-the-user-confirms-they-are-18-or-the-applicable-age-threshold-and-persist-the-confirmation-in-the-user-session-device-so-returning-users-are-not-repeatedly-prompted",
+      "featureTitle": "Add an age-gate flow that blocks access until the user confirms they are 18+ (or the applicable age threshold) and persist the confirmation in the user session/device so returning users are not repeatedly prompted.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useAgeGate.ts",
+        "frontend/src/pages/AgeGatePage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-basic-content-posting-and-browsing-for-non-explicit-items-create-list-view-details-and-delete-the-user-s-own-posts-posts-should-support-title-description-text-optional-external-link-url-and-creation-timestamp",
+      "featureTitle": "Implement basic content posting and browsing for non-explicit items: create, list, view details, and delete the user’s own posts. Posts should support title, description text, optional external link URL, and creation timestamp.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/usePosts.ts",
+        "frontend/src/pages/CreatePostPage.tsx",
+        "frontend/src/pages/FeedPage.tsx",
+        "frontend/src/pages/PostDetailPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-require-internet-identity-login-to-create-or-delete-posts-allow-anonymous-users-to-browse-only-after-passing-the-age-gate",
+      "featureTitle": "Require Internet Identity login to create or delete posts; allow anonymous users to browse only after passing the age gate.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useInternetIdentity.ts",
+        "frontend/src/pages/CreatePostPage.tsx",
+        "frontend/src/pages/PostDetailPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-client-side-and-server-side-content-policy-checks-to-reject-explicitly-sexual-content-in-titles-descriptions-keyword-based-filter-and-display-a-clear-error-message-when-rejected",
+      "featureTitle": "Add client-side and server-side content policy checks to reject explicitly sexual content in titles/descriptions (keyword-based filter) and display a clear error message when rejected.",
+      "files": [
+        "frontend/src/content/policy.ts",
+        "frontend/src/hooks/usePosts.ts",
+        "frontend/src/pages/CreatePostPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-define-and-apply-a-coherent-distinctive-visual-theme-for-the-app-colors-typography-spacing-and-components-suitable-for-a-mature-audience-platform-avoid-blue-purple-as-the-primary-palette",
+      "featureTitle": "Define and apply a coherent, distinctive visual theme for the app (colors, typography, spacing, and components) suitable for a mature-audience platform; avoid blue/purple as the primary palette.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

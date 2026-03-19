@@ -1,0 +1,23 @@
+{
+  "backend/main.mo": "Motoko canister implementing posts with ID, author, content fields, keyword filtering, age gate, and CRUD operations restricted by caller identity.",
+  "feature_evidence.json": "Feature evidence report mapping feature requirements to frontend files, components, and test IDs.",
+  "frontend-file-summaries.txt": "Prewritten summaries describing each frontend file’s purpose and functionality in the app.",
+  "frontend/index.css": "Global Tailwind base styles and custom OKLCH color variables for light and dark themes.",
+  "frontend/index.html": "Minimal HTML entry file mounting the React app and loading main.tsx.",
+  "frontend/src/App.tsx": "Main React application configuring routes, age‑gate protection, global layout, theming, and toast provider.",
+  "frontend/src/components/Footer.tsx": "Footer component showing copyright, attribution link, and mature‑audience disclaimer.",
+  "frontend/src/components/Header.tsx": "Header with branding, theme toggle, and Internet Identity login/logout menu.",
+  "frontend/src/content/policy.ts": "Client‑side content policy containing forbidden keywords, validation function, and policy text snippets.",
+  "frontend/src/hooks/useActor.ts": "Hook creating and caching an authenticated or anonymous backend actor and invalidating queries on identity change.",
+  "frontend/src/hooks/useAgeGate.ts": "Hook managing local age‑gate confirmation state with localStorage persistence.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Defines a React context and provider for managing Internet Identity authentication, including loading, logging in, and clearing identities. Wraps AuthClient setup logic and exposes status flags through a custom hook.",
+  "frontend/src/hooks/usePosts.ts": "Provides React Query hooks for listing, fetching, creating, and deleting posts through the backend actor. Automatically invalidates cached post queries on mutations.",
+  "frontend/src/index.css": "Configures Tailwind base layers and defines light/dark theme CSS variables for the application's color system. Applies global styles for borders and body text/background.",
+  "frontend/src/main.tsx": "Bootstraps the React app by mounting it with QueryClientProvider and InternetIdentityProvider. Imports global styles and renders the main App component.",
+  "frontend/src/pages/AgeGatePage.tsx": "Implements an age-verification screen requiring users to confirm they are 18+, displaying disclaimers and policy summaries. Supports decline handling and gated entry via a confirmation checkbox.",
+  "frontend/src/pages/CreatePostPage.tsx": "Provides a form for authenticated users to create posts, including validation, Internet Identity login fallback, and content policy checks. On success it submits the post and navigates back to the feed.",
+  "frontend/src/pages/FeedPage.tsx": "Displays the post feed with loading and error states, offering navigation to create posts and view individual posts. Renders posts with basic metadata and handles empty-feed scenarios.",
+  "frontend/src/pages/PostDetailPage.tsx": "Displays a post’s details, handles loading and error states, and allows the author to delete the post using Internet Identity authentication.",
+  "frontend/tailwind.config.js": "Configures Tailwind with custom theme colors, typography, container settings, animations, and plugins.",
+  "project_state.json": "Stores project metadata, existing features, blocked requests, and notes regarding the mature-content platform's constraints."
+}

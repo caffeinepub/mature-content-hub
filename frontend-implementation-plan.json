@@ -1,0 +1,208 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Mature Content Hub (Safe, Age-Gated, Non-Explicit) — Frontend Plan",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Ensure the UI/UX and demo copy present a safe, non-explicit mature-audience platform with strict content rules and neutral examples.",
+      "acceptanceCriteria": [
+        "The app contains no pornographic or sexually explicit images, videos, or text in seed/demo content.",
+        "UI copy and navigation avoid porn/explicit terminology; the app is presented as a mature-audience, non-explicit platform.",
+        "Any example content used for demos is neutral and non-explicit."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/content/policy.ts",
+          "operation": "create",
+          "description": "Define non-explicit content rules, blocked-term list (kept minimal and non-graphic), and helper text used across the UI (labels, disclaimers, and error copy) to keep terminology mature-audience and non-explicit."
+        },
+        {
+          "path": "frontend/src/pages/AgeGatePage.tsx",
+          "operation": "create",
+          "description": "Create a mature-audience, non-explicit age confirmation screen with strict content rules summary and neutral wording; avoid explicit terminology. Use shadcn-ui components (e.g., Card, Button, Checkbox/Separator) for consistent presentation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/FeedPage.tsx",
+          "operation": "create",
+          "description": "Create the browsing/feed page with neutral, non-explicit demo empty-states and UI copy. Use shadcn-ui components (Card, Button, Skeleton) for layout and loading states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/PostDetailPage.tsx",
+          "operation": "create",
+          "description": "Create the post detail view with neutral copy and safe rendering of description and optional external link (no auto-embedding). Use shadcn-ui components (Card, Button) for a polished layout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CreatePostPage.tsx",
+          "operation": "create",
+          "description": "Create the post creation page with neutral labels and a short content-policy reminder; ensure all placeholder text is non-explicit. Use shadcn-ui components (Form primitives, Input, Textarea, Button, Alert) for accessible forms. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add an age-gate flow that blocks access until 18+ confirmation and persists confirmation on device/session.",
+      "acceptanceCriteria": [
+        "Visiting the app shows an age confirmation screen before any content pages are accessible.",
+        "After confirming, users can access the rest of the app without seeing the age gate again on refresh (until cleared).",
+        "Declining or failing to confirm keeps the user blocked from content pages."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useAgeGate.ts",
+          "operation": "create",
+          "description": "Implement age-gate state management using localStorage/sessionStorage (persist confirmed flag), plus helpers to confirm/clear and to check whether the user is gated."
+        },
+        {
+          "path": "frontend/src/pages/AgeGatePage.tsx",
+          "operation": "modify",
+          "description": "Wire confirm/decline actions to useAgeGate; on confirm persist flag and navigate to the feed; on decline keep user blocked with clear messaging. Use shadcn-ui components for buttons/alerts. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AgeGateGuard.tsx",
+          "operation": "create",
+          "description": "Create a guard wrapper that blocks rendering/navigating to content routes unless age confirmation is present; redirects to AgeGatePage when not confirmed."
+        },
+        {
+          "path": "frontend/src/backend.ts",
+          "operation": "create",
+          "description": "Create a small frontend backend client wrapper around the existing backendInterface (from frontend/src/backend.d.ts) to call capabilities like ageGate, listPosts, getPost, createPost, deletePost from React code."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Add routing and navigation structure and ensure the AgeGateGuard is applied so no content routes render before age confirmation; ensure direct URL access to feed/detail/create is gated."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Enable basic non-explicit content posting and browsing: create, list, view details, and delete the user’s own posts with timestamps and optional external link.",
+      "acceptanceCriteria": [
+        "Authenticated users can create a post with title and description; the post appears in the global feed.",
+        "Users can open a post detail view from the feed.",
+        "Users can delete posts they created; they cannot delete others’ posts.",
+        "Posts show creation timestamps and render an optional external link when provided."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/usePosts.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listing posts, fetching a post by id, creating posts, and deleting posts using the frontend backend client wrapper (frontend/src/backend.ts)."
+        },
+        {
+          "path": "frontend/src/pages/FeedPage.tsx",
+          "operation": "modify",
+          "description": "Render the global feed from usePosts list hook, show timestamps, and link each item to the detail view. Use shadcn-ui components (Card, Button, Skeleton) for consistent UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/PostDetailPage.tsx",
+          "operation": "modify",
+          "description": "Fetch and render a single post with timestamp and optional external link; include a delete control that is only available for the author (as determined by authenticated principal in frontend state). Use shadcn-ui components (AlertDialog for delete confirm) for safe destructive actions. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CreatePostPage.tsx",
+          "operation": "modify",
+          "description": "Implement create form for title, description, optional external link URL; submit via create hook; handle success navigation back to feed and render validation errors. Use shadcn-ui form controls. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register routes for feed, post detail, and create post, and ensure navigation links exist so these views are not orphaned."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Require Internet Identity login to create or delete posts; allow anonymous browsing only after age gate.",
+      "acceptanceCriteria": [
+        "Anonymous users can see the feed and post details only after age-gate confirmation.",
+        "Attempting to create or delete a post while not authenticated prompts the user to sign in with Internet Identity.",
+        "Authenticated state is reflected in the UI (e.g., sign in/out controls)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useInternetIdentity.ts",
+          "operation": "modify",
+          "description": "Expose a small helper (or derived boolean) for \"isAuthenticated\" (non-anonymous principal) to simplify UI gating, while preserving existing login/clear behavior."
+        },
+        {
+          "path": "frontend/src/components/AuthControls.tsx",
+          "operation": "create",
+          "description": "Create a header control showing sign in/out state and actions using useInternetIdentity; use shadcn-ui components (Button, DropdownMenu) to present controls. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/RequireAuth.tsx",
+          "operation": "create",
+          "description": "Create a lightweight wrapper to enforce authentication for specific actions/views (create/delete), triggering Internet Identity login when required and showing a friendly explanation."
+        },
+        {
+          "path": "frontend/src/pages/CreatePostPage.tsx",
+          "operation": "modify",
+          "description": "Wrap the create form with RequireAuth so anonymous users are prompted to sign in before they can submit a post; keep browsing routes accessible after age gate."
+        },
+        {
+          "path": "frontend/src/pages/PostDetailPage.tsx",
+          "operation": "modify",
+          "description": "Ensure delete action is protected: if not authenticated, prompt sign-in; if authenticated but not the author, hide/disable delete UI with clear messaging."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add a shared layout/header that includes AuthControls and ensures the age gate still blocks access to content routes for all users until confirmed."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Add client-side explicit-keyword filtering for titles/descriptions with clear rejection messaging (complementing backend enforcement).",
+      "acceptanceCriteria": [
+        "Creating a post containing blocked explicit keywords is rejected in the UI with an explanatory error message.",
+        "The backend also rejects blocked explicit keywords so bypassing the UI cannot store prohibited content.",
+        "Rejected posts are not persisted and do not appear in the feed."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/content/policy.ts",
+          "operation": "modify",
+          "description": "Add keyword-based moderation helpers for validating title/description (case-insensitive matching, trimming, basic normalization) and return user-friendly, non-graphic error messages."
+        },
+        {
+          "path": "frontend/src/pages/CreatePostPage.tsx",
+          "operation": "modify",
+          "description": "Run client-side policy validation before calling create; show a clear error message when blocked. Also handle backend rejection (e.g., surfaced error) and display the same policy-oriented message. Use shadcn-ui Alert component for errors. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/usePosts.ts",
+          "operation": "modify",
+          "description": "Ensure create mutation surfaces backend errors in a consistent shape so UI can display a clear policy rejection message without leaking explicit terms."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Apply a coherent, distinctive mature-audience theme across all views; avoid blue/purple primary palette.",
+      "acceptanceCriteria": [
+        "A consistent theme is applied across the age gate, feed, post creation, and post detail views.",
+        "Primary palette is not blue/purple; typography and spacing are consistent and polished."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define the global design tokens/CSS variables used by Tailwind/shadcn (colors, radius, typography base) with a non-blue/purple primary palette (e.g., warm neutrals with amber/emerald accents) and consistent spacing defaults."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust theme extensions as needed to support the new palette and consistent typography/spacing while keeping the existing Tailwind/shadcn variable-based approach."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Introduce a shared layout shell (header + content container) and apply consistent spacing/typography classes so the theme is uniform across AgeGatePage, FeedPage, CreatePostPage, and PostDetailPage."
+        }
+      ]
+    }
+  ]
+}

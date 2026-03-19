@@ -1,0 +1,14 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, age gate guard wrapper, and route definitions for feed, post detail, and create post pages with shared layout.",
+  "frontend/src/hooks/useAgeGate.ts": "Custom hook managing age confirmation state using localStorage, providing confirm/clear functions and loading state for the age gate flow.",
+  "frontend/src/hooks/usePosts.ts": "React Query hooks for all post operations including listing posts, fetching individual posts, creating new posts, and deleting posts with proper cache invalidation.",
+  "frontend/src/content/policy.ts": "Content policy configuration with forbidden keyword validation, policy summary text, and age gate disclaimer copy used throughout the application.",
+  "frontend/src/pages/AgeGatePage.tsx": "Age verification page with checkbox confirmation, policy summary, and confirm/decline actions using shadcn Card, Button, Checkbox, and Alert components.",
+  "frontend/src/pages/FeedPage.tsx": "Main feed page displaying all posts in cards with navigation to detail view and create post, including empty state and loading skeletons.",
+  "frontend/src/pages/PostDetailPage.tsx": "Individual post detail view with full content display, external link rendering, and delete functionality with AlertDialog confirmation for post authors.",
+  "frontend/src/pages/CreatePostPage.tsx": "Post creation form with title, description, and optional external link fields, client-side content validation, and authentication requirement with policy reminder.",
+  "frontend/src/components/Header.tsx": "Application header with branding, theme toggle, and authentication controls including Internet Identity sign in/out dropdown menu.",
+  "frontend/src/components/Footer.tsx": "Application footer with copyright, caffeine.ai attribution with UTM tracking, and platform disclaimer for mature audiences.",
+  "frontend/src/index.css": "Global styles with warm neutral OKLCH color palette featuring amber/bronze accents for both light and dark modes, avoiding blue/purple primary colors.",
+  "frontend/tailwind.config.js": "Tailwind configuration extending the theme with custom font stack, warm color tokens, border radius, and shadow utilities for consistent design system."
+}
